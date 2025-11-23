@@ -192,8 +192,11 @@ User Identity → [Encryption] → Anonymous ID ← Linked → Post Content
 **Python Backend:**
 ```python
 # Example anonymization service
+from datetime import datetime
+from typing import Dict
+
 class AnonymizationService:
-    def anonymize_post(self, user_id: str, content: str) -> dict:
+    def anonymize_post(self, user_id: str, content: str) -> Dict:
         # Generate pseudonymous ID
         anon_id = self.generate_anonymous_id(user_id)
         
@@ -1168,6 +1171,7 @@ COGNITO_USER_POOL_CONFIG = {
 ```python
 # auth_service.py - FastAPI integration with AWS Cognito
 
+import os
 import boto3
 from botocore.exceptions import ClientError
 import hashlib
@@ -1175,9 +1179,11 @@ import secrets
 
 class AuthService:
     def __init__(self):
-        self.cognito = boto3.client('cognito-idp', region_name='us-east-1')
-        self.user_pool_id = 'us-east-1_XXXXXXXXX'
-        self.client_id = 'your-app-client-id'
+        # Load configuration from environment variables
+        region = os.getenv('AWS_REGION', 'us-east-1')
+        self.cognito = boto3.client('cognito-idp', region_name=region)
+        self.user_pool_id = os.getenv('COGNITO_USER_POOL_ID')
+        self.client_id = os.getenv('COGNITO_CLIENT_ID')
     
     def sign_up(self, email: str, password: str) -> dict:
         """
@@ -1332,14 +1338,16 @@ export const authService = {
           reject(err);
         },
         mfaRequired: (challengeName, challengeParameters) => {
-          // Handle MFA if enabled
-          const mfaCode = prompt('Enter MFA code:');
-          cognitoUser.sendMFACode(mfaCode!, {
-            onSuccess: (session) => {
-              resolve(session.getAccessToken().getJwtToken());
-            },
-            onFailure: reject,
+          // Handle MFA if enabled - should trigger UI component
+          // In production, this would open a modal or navigate to MFA page
+          reject({ 
+            code: 'MFA_REQUIRED',
+            message: 'Multi-factor authentication required',
+            challengeName,
+            cognitoUser 
           });
+          // The UI layer should handle this by showing MFA input component
+          // and calling cognitoUser.sendMFACode() with user-provided code
         },
       });
     });
