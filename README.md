@@ -1,6 +1,6 @@
-# geeky.emotion
+# lore.emotion
 
-Geeky Emotion is a bespoke app for personal emotional support. Its intent is to help share thoughts and feelings in a safe space with curated professional queues and feedback.
+Lore Emotion is a bespoke app for personal emotional support. Its intent is to help share thoughts and feelings in a safe space with curated professional queues and feedback.
 
 ## System Architecture
 
@@ -1124,7 +1124,7 @@ Desktop (1024px+):
 # cognito_config.py
 
 COGNITO_USER_POOL_CONFIG = {
-    'UserPoolName': 'geeky-emotion-users',
+    'UserPoolName': 'lore-emotion-users',
     'Policies': {
         'PasswordPolicy': {
             'MinimumLength': 12,
@@ -1162,7 +1162,7 @@ COGNITO_USER_POOL_CONFIG = {
     },
     'EmailConfiguration': {
         'EmailSendingAccount': 'DEVELOPER',  # Use SES for custom emails
-        'SourceArn': 'arn:aws:ses:region:account-id:identity/support@geeky.emotion'
+        'SourceArn': 'arn:aws:ses:region:account-id:identity/support@lore.emotion'
     }
 }
 ```
@@ -1531,7 +1531,7 @@ This means:
 - **Transparent metrics** demonstrate accountability and continuous improvement
 - **Professional oversight** ensures quality and safety at every level
 
-By implementing these principles, guardrails, and metrics, geeky.emotion can scale to millions of users while maintaining the trust, safety, and psychological wellbeing that vulnerable populations deserve.
+By implementing these principles, guardrails, and metrics, lore.emotion can scale to millions of users while maintaining the trust, safety, and psychological wellbeing that vulnerable populations deserve.
 
 ---
 
@@ -1545,12 +1545,12 @@ We welcome contributions that improve safety, privacy, and user experience. Plea
 
 ## Contact & Crisis Resources
 
-**For Platform Support**: support@geeky.emotion (fictional)
+**For Platform Support**: support@lore.emotion (fictional)
 
 **Crisis Resources** (Available 24/7):
 - **US**: 988 (Suicide & Crisis Lifeline)
 - **UK**: 116 123 (Samaritans)
 - **International**: https://findahelpline.com/
 
-**Privacy Questions**: privacy@geeky.emotion (fictional)  
-**Security Issues**: security@geeky.emotion (fictional)
+**Privacy Questions**: privacy@lore.emotion (fictional)  
+**Security Issues**: security@lore.emotion (fictional)
