@@ -1,5 +1,5 @@
 """
-Rate limiting middleware using Redis
+Rate limiting middleware using Redis / AWS ElastiCache
 """
 from fastapi import Request, HTTPException, status
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -18,9 +18,21 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
     def __init__(self, app):
         super().__init__(app)
         try:
-            self.redis_client = redis.from_url(settings.REDIS_URL, decode_responses=True)
+            # Support both local Redis and AWS ElastiCache
+            redis_kwargs = {"decode_responses": True}
+            
+            # Add SSL support for ElastiCache with in-transit encryption
+            if settings.REDIS_SSL or settings.REDIS_URL.startswith("rediss://"):
+                redis_kwargs["ssl"] = True
+                redis_kwargs["ssl_cert_reqs"] = None  # For self-signed certs
+                logger.info("Using SSL/TLS for Redis connection (AWS ElastiCache)")
+            
+            self.redis_client = redis.from_url(settings.REDIS_URL, **redis_kwargs)
             self.redis_client.ping()
-            logger.info("Redis connection established for rate limiting")
+            
+            # Log connection without exposing credentials
+            endpoint = settings.REDIS_URL.split('@')[-1] if '@' in settings.REDIS_URL else 'localhost'
+            logger.info(f"Redis connection established for rate limiting: {endpoint}")
         except Exception as e:
             logger.warning(f"Redis connection failed: {e}. Rate limiting disabled.")
             self.redis_client = None

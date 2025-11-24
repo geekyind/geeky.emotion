@@ -21,18 +21,23 @@ class Settings(BaseSettings):
     DATABASE_URL: str
     DATABASE_IDENTITY_URL: str
     
-    # Redis
+    # Redis / AWS ElastiCache
+    # Supports both local Redis and AWS ElastiCache
+    # Local: redis://localhost:6379/0
+    # ElastiCache: redis://endpoint.cache.amazonaws.com:6379/0
+    # ElastiCache with TLS: rediss://endpoint.cache.amazonaws.com:6379/0
     REDIS_URL: str = "redis://localhost:6379/0"
+    REDIS_SSL: bool = False  # Enable for ElastiCache with in-transit encryption
     
     # AWS Configuration
-    AWS_REGION: str = "us-east-1"
+    AWS_REGION: str = "us-east-2"
     AWS_ACCESS_KEY_ID: str = ""
     AWS_SECRET_ACCESS_KEY: str = ""
     
     # AWS Cognito
     COGNITO_USER_POOL_ID: str
     COGNITO_CLIENT_ID: str
-    COGNITO_REGION: str = "us-east-1"
+    COGNITO_REGION: str = "us-east-2"
     
     # Security
     SECRET_KEY: str

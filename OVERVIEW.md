@@ -115,7 +115,7 @@ Inspired by **Lore.co**, we believe emotional support should feel:
 **Frontend** → Next.js 14 with beautiful Tailwind UI  
 **Database** → PostgreSQL (separate for identity & content)  
 **ML/AI** → Sentence transformers for similar post discovery  
-**Cache** → Redis for performance  
+**Cache** → Redis (local) / AWS ElastiCache (production) for performance  
 
 ---
 

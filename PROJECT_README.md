@@ -22,7 +22,7 @@
 - **Content Moderation**: ML-powered safety checks
 - **Similar Posts**: Sentence transformers for semantic search
 - **Database**: Separate PostgreSQL databases for identity and content
-- **Caching**: Redis for rate limiting and session management
+- **Caching**: Redis (local) / AWS ElastiCache (production) for rate limiting and session management
 
 ### Frontend (Next.js 14)
 - **Framework**: Next.js with App Router
@@ -67,9 +67,9 @@ lore.emotion/
 - Python 3.10+
 - Conda (Anaconda or Miniconda) - recommended
 - Node.js 18+
-- PostgreSQL 14+
-- Redis 6+
-- AWS Account (for Cognito)
+- PostgreSQL 14+ (or AWS RDS)
+- Redis 6+ (local) or AWS ElastiCache (production)
+- AWS Account (for Cognito and ElastiCache)
 
 ### Backend Setup
 
@@ -182,10 +182,10 @@ Inspired by **Lore.co**, the design prioritizes:
 ### Backend
 - **Framework**: FastAPI
 - **Database**: PostgreSQL (with asyncpg)
-- **Cache**: Redis
+- **Cache**: Redis (local) / AWS ElastiCache (production)
 - **Auth**: AWS Cognito + JWT
 - **ML/NLP**: Sentence Transformers, scikit-learn
-- **Monitoring**: Prometheus, Sentry
+- **Monitoring**: Prometheus, Sentry, CloudWatch
 
 ### Frontend
 - **Framework**: Next.js 14 (App Router)

@@ -190,7 +190,9 @@ DATABASE_IDENTITY_URL=postgresql://postgres:your_password@localhost:5432/lore_em
 
 ### 6. Setup Redis Cache
 
-#### Option A: Using Docker (Recommended)
+You have three options: Docker (recommended for local development), AWS ElastiCache (recommended for production), or local installation.
+
+#### Option A: Using Docker (Recommended for Local Development)
 
 ```powershell
 # Run Redis container
@@ -209,6 +211,7 @@ docker exec -it lore-emotion-redis redis-cli ping
 **Update `.env` file:**
 ```env
 REDIS_URL=redis://localhost:6379/0
+REDIS_SSL=false
 ```
 
 **Useful Docker Commands:**
@@ -226,12 +229,139 @@ docker logs lore-emotion-redis
 docker rm lore-emotion-redis
 ```
 
-#### Option B: Local Redis Installation
+#### Option B: AWS ElastiCache (Recommended for Production)
+
+**1. Create ElastiCache Redis Cluster:**
+
+```powershell
+# Using AWS CLI
+aws elasticache create-cache-cluster `
+  --cache-cluster-id lore-emotion-cache `
+  --engine redis `
+  --cache-node-type cache.t3.micro `
+  --num-cache-nodes 1 `
+  --engine-version 7.0 `
+  --preferred-availability-zone us-east-2a `
+  --security-group-ids sg-xxxxx `
+  --cache-subnet-group-name your-subnet-group `
+  --tags Key=Project,Value=LoreEmotion Key=Environment,Value=Production
+```
+
+**Or using AWS Console:**
+1. Go to AWS Console → ElastiCache
+2. Click **Create** → **Redis cluster**
+3. Configure:
+   - **Cluster name**: `lore-emotion-cache`
+   - **Engine version**: Redis 7.0 or later
+   - **Node type**: `cache.t3.micro` (development) or `cache.r6g.large` (production)
+   - **Number of replicas**: 2 (for high availability)
+   - **Multi-AZ**: Enabled (recommended for production)
+   - **Encryption in-transit**: Enabled (recommended)
+   - **Encryption at-rest**: Enabled (recommended)
+4. **Networking**:
+   - Select your VPC
+   - Choose subnet group
+   - Select security group (allow inbound on port 6379 from your backend)
+5. **Backup**: Enable automatic backups
+6. Click **Create**
+
+**2. Configure Security Group:**
+
+Your ElastiCache cluster must be accessible from your backend servers:
+
+```powershell
+# Add inbound rule to ElastiCache security group
+aws ec2 authorize-security-group-ingress `
+  --group-id sg-elasticache-xxxxx `
+  --protocol tcp `
+  --port 6379 `
+  --source-group sg-backend-xxxxx
+```
+
+**3. Get Connection Endpoint:**
+
+```powershell
+# Get cluster endpoint
+aws elasticache describe-cache-clusters `
+  --cache-cluster-id lore-emotion-cache `
+  --show-cache-node-info `
+  --query 'CacheClusters[0].CacheNodes[0].Endpoint' `
+  --output table
+```
+
+Endpoint format: `lore-emotion-cache.xxxxx.0001.use2.cache.amazonaws.com`
+
+**4. Update `.env` file:**
+
+```env
+# Without TLS (not recommended for production)
+REDIS_URL=redis://lore-emotion-cache.xxxxx.0001.use2.cache.amazonaws.com:6379/0
+REDIS_SSL=false
+
+# With TLS (recommended for production)
+REDIS_URL=rediss://lore-emotion-cache.xxxxx.0001.use2.cache.amazonaws.com:6379/0
+REDIS_SSL=true
+```
+
+**5. Test Connection:**
+
+```powershell
+# From your backend server (must be in same VPC)
+telnet lore-emotion-cache.xxxxx.0001.use2.cache.amazonaws.com 6379
+
+# Or use redis-cli
+redis-cli -h lore-emotion-cache.xxxxx.0001.use2.cache.amazonaws.com -p 6379 ping
+# Should return: PONG
+
+# With TLS
+redis-cli -h lore-emotion-cache.xxxxx.0001.use2.cache.amazonaws.com -p 6379 --tls ping
+```
+
+**6. Monitor ElastiCache:**
+
+```powershell
+# View cluster metrics
+aws elasticache describe-cache-clusters `
+  --cache-cluster-id lore-emotion-cache `
+  --show-cache-node-info
+
+# View CloudWatch metrics
+aws cloudwatch get-metric-statistics `
+  --namespace AWS/ElastiCache `
+  --metric-name CPUUtilization `
+  --dimensions Name=CacheClusterId,Value=lore-emotion-cache `
+  --start-time 2025-11-23T00:00:00Z `
+  --end-time 2025-11-23T23:59:59Z `
+  --period 3600 `
+  --statistics Average
+```
+
+**ElastiCache Best Practices:**
+- Enable **automatic failover** with Multi-AZ for high availability
+- Use **encryption in-transit** (TLS) for production
+- Enable **encryption at-rest** for sensitive data
+- Set up **CloudWatch alarms** for CPU, memory, and evictions
+- Use **Redis AUTH** token for additional security
+- Enable **automatic backups** with appropriate retention period
+- Use **parameter groups** to customize Redis configuration
+- Monitor **cache hit ratio** and optimize accordingly
+
+**Cost Optimization:**
+- Use **Reserved Nodes** for predictable workloads (up to 55% savings)
+- Start with smaller node types (`cache.t3.micro`) and scale as needed
+- Use **single node** for development, **multi-node with replicas** for production
+- Enable **Auto Discovery** for cluster mode to reduce connection overhead
+
+#### Option C: Local Redis Installation
 
 **Windows:**
 1. Download Redis from: https://github.com/microsoftarchive/redis/releases
 2. Extract and run `redis-server.exe`
-3. Update `.env`: `REDIS_URL=redis://localhost:6379/0`
+3. Update `.env`:
+   ```env
+   REDIS_URL=redis://localhost:6379/0
+   REDIS_SSL=false
+   ```
 
 ### 7. Run Migrations
 
@@ -430,9 +560,9 @@ docker run -p 8000:8000 --env-file .env lore-emotion-backend
 
 3. **Scaling**:
    - Use managed PostgreSQL (RDS)
-   - Use ElastiCache for Redis
-   - Deploy behind load balancer
-   - Enable auto-scaling
+   - Use ElastiCache for Redis (see Option B in section 6)
+   - Deploy behind load balancer (ALB/NLB)
+   - Enable auto-scaling for EC2/ECS
 
 4. **Database**:
    - Enable connection pooling

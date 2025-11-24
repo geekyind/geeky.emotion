@@ -1138,7 +1138,7 @@ Desktop (1024px+):
 
 ### Backend (Python)
 - **Framework**: FastAPI or Django (with Django Rest Framework)
-- **Database**: PostgreSQL (for relational) + Redis (for caching)
+- **Database**: PostgreSQL (for relational) + Redis/ElastiCache (for caching)
 - **Vector DB**: Pinecone or Milvus (for similarity search)
 - **Queue System**: Celery + RabbitMQ (for async tasks)
 - **ML/AI**: 
