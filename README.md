@@ -1,6 +1,8 @@
-# lore.emotion
-
-Lore Emotion is a bespoke app for personal emotional support. Its intent is to help share thoughts and feelings in a safe space with curated professional queues and feedback.
+<div align="center">
+  <img src="public/LogoLore.svg" alt="Lore Emotion Logo" width="200" />
+  <h1>Lore Emotion</h1>
+  <p>Lore Emotion is a bespoke app for personal emotional support. Its intent is to help share thoughts and feelings in a safe space with curated professional queues and feedback.</p>
+</div>
 
 ## System Architecture
 

@@ -1,6 +1,8 @@
-# Lore Emotion
-
-A privacy-first emotional support platform connecting users with community support and professional care.
+<div align="center">
+  <img src="public/LogoLore.svg" alt="Lore Emotion Logo" width="200" />
+  <h1>Lore Emotion</h1>
+  <p>A privacy-first emotional support platform connecting users with community support and professional care.</p>
+</div>
 
 ## 🌟 Features
 

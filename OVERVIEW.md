@@ -1,6 +1,8 @@
-# 💙 Lore Emotion
-
-> *Your safe space to share, connect, and heal*
+<div align="center">
+  <img src="public/LogoLore.svg" alt="Lore Emotion Logo" width="200" />
+  <h1>💙 Lore Emotion</h1>
+  <p><em>Your safe space to share, connect, and heal</em></p>
+</div>
 
 ---
 
