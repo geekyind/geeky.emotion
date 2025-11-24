@@ -25,6 +25,38 @@ Trained professionals review posts and provide guidance. Crisis support is avail
 
 ---
 
+## 📸 Platform Screenshots
+
+<div align="center">
+
+### Welcome & Onboarding
+<img src="public/screenshots/welcome.png" alt="Welcome Screen" width="800" />
+<p><em>Warm, empathetic welcome with clear privacy messaging</em></p>
+
+### Anonymous Post Creation
+<img src="public/screenshots/post-composer.png" alt="Post Composer" width="800" />
+<p><em>Safe space to share with real-time privacy indicators</em></p>
+
+### Community Feed
+<img src="public/screenshots/feed.png" alt="Community Feed" width="800" />
+<p><em>Discover similar experiences and supportive responses</em></p>
+
+### Professional Support
+<img src="public/screenshots/professional-response.png" alt="Professional Response" width="800" />
+<p><em>Expert guidance from trained mental health professionals</em></p>
+
+### Personal Dashboard
+<img src="public/screenshots/dashboard.png" alt="Wellness Dashboard" width="800" />
+<p><em>Track your journey with gentle progress indicators</em></p>
+
+### Crisis Support
+<img src="public/screenshots/crisis-intervention.png" alt="Crisis Intervention" width="800" />
+<p><em>Immediate access to help when you need it most</em></p>
+
+</div>
+
+---
+
 ## 🛡️ How We Keep You Safe
 
 **Anonymization Pipeline**

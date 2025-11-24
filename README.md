@@ -14,6 +14,54 @@ This is a Python-based backend system with a Next.js frontend designed to provid
 
 ---
 
+## 📸 UI Screenshots
+
+<div align="center">
+
+### Welcome Experience
+<img src="public/screenshots/welcome.png" alt="Welcome Screen" width="700" />
+
+*Empathetic onboarding with clear privacy messaging*
+
+### Anonymous Post Creation
+<img src="public/screenshots/post-composer.png" alt="Post Composer" width="700" />
+
+*Safe composition interface with real-time safety checks and anonymization indicators*
+
+### Community Feed
+<img src="public/screenshots/feed.png" alt="Community Feed" width="700" />
+
+*Discover similar experiences with supportive, moderated responses*
+
+### Professional Support Queue
+<img src="public/screenshots/professional-response.png" alt="Professional Response" width="700" />
+
+*Expert guidance from verified mental health professionals*
+
+### Personal Wellness Dashboard
+<img src="public/screenshots/dashboard.png" alt="Wellness Dashboard" width="700" />
+
+*Track your emotional journey with gentle progress visualization*
+
+### Crisis Intervention
+<img src="public/screenshots/crisis-intervention.png" alt="Crisis Intervention UI" width="700" />
+
+*Immediate crisis support with 24/7 resource access*
+
+### Privacy Controls
+<img src="public/screenshots/privacy-settings.png" alt="Privacy Settings" width="700" />
+
+*Granular control over data, anonymization, and content preferences*
+
+### Mobile Experience
+<img src="public/screenshots/mobile-view.png" alt="Mobile Interface" width="350" />
+
+*Responsive design optimized for on-the-go support*
+
+</div>
+
+---
+
 ## Fundamental Design Principles
 
 ### 1. **Privacy by Design**
